@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+
+
+  nest:
+    build:
+      context: .
+      dockerfile: Dockerfiles/NestJS-Dockerfile
+    ports:
+      - "3001:3001"
+    volumes:
+      - ${NESTDIR}/:/app
+
+  next:
+    build: 
+      context: .
+      dockerfile: Dockerfiles/NextJS-Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ${NEXTDIR}/:/app
+
+
+volumes:
+  postgres:
+    name: named-postgres
