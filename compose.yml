@@ -1,8 +1,13 @@
 version: '3'
 
+
+volumes:
+  postgres:
+  nest-node-modules:
+  next-node-modules:
+
+
 services:
-
-
   nest:
     build:
       context: .
@@ -10,7 +15,13 @@ services:
     ports:
       - "3001:3001"
     volumes:
-      - ${NESTDIR}/:/app
+      - type: bind
+        source: ${NESTDIR}
+        target: /home/
+
+      - type: volume
+        source: nest-node-modules
+        target: /home/node_modules/
 
   next:
     build: 
@@ -19,9 +30,11 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ${NEXTDIR}/:/app
+      - type: bind
+        source: ${NEXTDIR}
+        target: /home/
 
+      - type: volume
+        source: next-node-modules
+        target: /home/node_modules/
 
-volumes:
-  postgres:
-    name: named-postgres
