@@ -7,9 +7,10 @@ volumes:
   next-node-modules:
   postgres-store:
 
+networks:
+  docker-network:
 
 services:
-
   postgres:
     image: postgres:latest
     env_file: env_files/postgres.env
@@ -19,14 +20,13 @@ services:
       - type: volume
         source: postgres-store
         target: /var/lib/postgresql/data
+    networks:
+      - docker-network
 
-        
   nest:
     build:
       context: .
       dockerfile: Dockerfiles/NestJS-Dockerfile
-    ports:
-      - "3001:3001"
     volumes:
       - type: bind
         source: ${NESTDIR}
@@ -35,13 +35,13 @@ services:
       - type: volume
         source: nest-node-modules
         target: /home/node_modules/
+    networks:
+      - docker-network
 
   next:
     build: 
       context: .
       dockerfile: Dockerfiles/NextJS-Dockerfile
-    ports:
-      - "3000:3000"
     volumes:
       - type: bind
         source: ${NEXTDIR}
@@ -50,5 +50,19 @@ services:
       - type: volume
         source: next-node-modules
         target: /home/node_modules/
+    networks:
+      - docker-network
+
+  nginx:
+    image: nginx:latest
+    ports: 
+      - "80:80"
+      - "443:443"
+    volumes:
+      - type: bind
+        source: config/nginx
+        target: /etc/nginx/conf.d
+    networks:
+      - docker-network
 
 
