@@ -5,9 +5,22 @@ volumes:
   postgres:
   nest-node-modules:
   next-node-modules:
+  postgres-store:
 
 
 services:
+
+  postgres:
+    image: postgres:latest
+    env_file: env_files/postgres.env
+    ports:
+      - 5432:5432
+    volumes:
+      - type: volume
+        source: postgres-store
+        target: /var/lib/postgresql/data
+
+        
   nest:
     build:
       context: .
@@ -37,4 +50,5 @@ services:
       - type: volume
         source: next-node-modules
         target: /home/node_modules/
+
 
