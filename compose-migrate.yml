@@ -1,0 +1,40 @@
+version: '3'
+
+
+volumes:
+  postgres:
+  nest-node-modules:
+  next-node-modules:
+  postgres-store:
+
+networks:
+  docker-network:
+
+services:
+  postgres:
+    image: postgres:latest
+    env_file: env_files/postgres.develop.env
+    volumes:
+      - type: volume
+        source: postgres-store
+        target: /var/lib/postgresql/data
+    networks:
+      - docker-network
+
+  nest:
+    build:
+      context: .
+      dockerfile: Dockerfiles/NestJS-Migrate-Dockerfile
+    env_file: env_files/nestjs.develop.env
+    volumes:
+      - type: bind
+        source: ${NESTDIR}
+        target: /home/
+
+      - type: volume
+        source: nest-node-modules
+        target: /home/node_modules/
+    networks:
+      - docker-network
+    depends_on:
+      - postgres

@@ -5,7 +5,7 @@ volumes:
   postgres:
   nest-node-modules:
   next-node-modules:
-  postgres-devel:
+  postgres-start:
 
 networks:
   docker-network:
@@ -16,7 +16,7 @@ services:
     env_file: env_files/postgres.develop.env
     volumes:
       - type: volume
-        source: postgres-devel
+        source: postgres-start
         target: /var/lib/postgresql/data
     networks:
       - docker-network
@@ -24,7 +24,7 @@ services:
   nest:
     build:
       context: .
-      dockerfile: Dockerfiles/NestJS-develop-Dockerfile
+      dockerfile: Dockerfiles/NestJS-start-Dockerfile
     env_file: env_files/nestjs.develop.env
     ports:
       - 5555:5555 # for prisma studio
@@ -42,7 +42,8 @@ services:
   next:
     build: 
       context: .
-      dockerfile: Dockerfiles/NextJS-develop-Dockerfile
+      dockerfile: Dockerfiles/NextJS-start-Dockerfile
+    env_file: env_files/nestjs.start.env
     volumes:
       - type: bind
         source: ${NEXTDIR}
