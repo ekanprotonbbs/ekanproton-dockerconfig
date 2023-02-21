@@ -4,4 +4,4 @@ WORKDIR /home
 
 EXPOSE 3001
 
-CMD ["sh", "-c", "npx prisma migrate dev --name init"]
+CMD ["sh", "-c", "tail -f /dev/null"]

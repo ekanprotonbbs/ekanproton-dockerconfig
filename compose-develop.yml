@@ -27,6 +27,7 @@ services:
       - docker-network
 
   nest:
+    container_name: nestcontainer-devel
     build:
       context: .
       dockerfile: Dockerfiles/NestJS-develop-Dockerfile
@@ -45,6 +46,7 @@ services:
       - docker-network
 
   next:
+    container_name: nextcontainer-devel
     build: 
       context: .
       dockerfile: Dockerfiles/NextJS-develop-Dockerfile
