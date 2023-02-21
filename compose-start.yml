@@ -6,6 +6,7 @@ volumes:
   nest-node-modules:
   next-node-modules:
   postgres-start:
+  redis-start:
 
 networks:
   docker-network:
@@ -23,6 +24,13 @@ services:
 
   redis:
     image: redis:latest
+    volumes:
+    - type: bind
+      source: config/redis/redis.conf
+      target: /usr/local/etc/redis/redis.conf
+    - type: volume
+      source: redis-devel
+      target: /data
     networks:
       - docker-network
 
