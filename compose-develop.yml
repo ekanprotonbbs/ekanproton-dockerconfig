@@ -20,6 +20,11 @@ services:
         target: /var/lib/postgresql/data
     networks:
       - docker-network
+    
+  redis:
+    image: redis:latest
+    networks:
+      - docker-network
 
   nest:
     build:
